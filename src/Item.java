@@ -1,3 +1,7 @@
+// =======================================================
+// this class represents a generic item in the inventory.
+// =======================================================
+
 public class Item {
     protected String id;
     protected String name;
