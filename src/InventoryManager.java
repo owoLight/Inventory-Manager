@@ -1,8 +1,8 @@
+
 // =======================================================
 // this class manages the interaction service for the inventory.
 // this includes adding items, registering users, deleting users, checking out items, and returning items.
 // =======================================================
-
 
 public class InventoryManager {
     private final InventoryDatabase database;

@@ -1,3 +1,21 @@
+/*
+Patch Notes:
+Users are allowed to be created
+Users with invalid email formats are rejected
+Duplicate user IDs are not allowed
+Invalid users are marked as null
+
+Users are allowed to check out items if available
+Users can be removed from the system
+
+Items are added to the inventory system
+
+To Do:
+Make it so only admins can add and remove users and items from the database
+Change a user to null once it is removed from the system
+Additional things i havent thought of yet
+*/
+
 public class Main {
 
     // using main to do some basic testing
@@ -25,6 +43,9 @@ public class Main {
                 System.out.println("User does not exist.");
             }
         }
+
+        manager.removeUser("U-003"); // non-existent user
+        manager.removeUser("U-001"); // existing user
         
         System.err.println("End of code testing.");
 
