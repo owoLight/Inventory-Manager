@@ -17,7 +17,6 @@ To Do:
 Make it so only admins can add and remove users and items from the database
 Change a user to null once it is removed from the system
 
-creating changes to test repository functionality
 */
 
 public class Main {
