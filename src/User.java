@@ -25,14 +25,14 @@ public class User {
     }
 
     // getters
-    public static String getId(User user) {
-        return user.id;
+    public String getId() {
+        return id;
     }
-    public static String getName(User user) {
-        return user.name;
+    public String getName() {
+        return name;
     }
-    public static String getEmail(User user) {
-        return user.email;
+    public String getEmail() {
+        return email;
     }
     public Permissions getPermissions() {
         return perms;
@@ -44,22 +44,22 @@ public class User {
         return email.matches(regex);
     }
 
-    public static boolean isUniqueId(String id) {
+    public boolean isUniqueId(String id) {
         // In a real system, this method would check against a database or data structure
         // to ensure the ID is unique. Here, we'll assume all IDs passed are unique for simplicity.
         return true;
     }
 
-    public static void changeEmail(User user, String newEmail) {
+    public void changeEmail(String newEmail) {
         if (isValidEmail(newEmail)) {
-            user.email = newEmail;
+            email = newEmail;
         } else {
             System.out.println("Invalid email format. Email not changed.");
         }
     }
 
-    public static void changeName(User user, String newName) {
-        user.name = newName;
+    public void changeName(String newName) {
+        name = newName;
     }
 
 }

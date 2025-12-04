@@ -16,14 +16,14 @@ public class Item {
     }
 
     // getters
-    public String getId(Item item) {
-        return item.id;
+    public String getId() {
+        return id;
     }
-    public String getName(Item item) {
-        return item.name;
+    public String getName() {
+        return name;
     }
-    public boolean checkAvailability(Item item) {
-        return item.isAvailable;
+    public boolean checkAvailability() {
+        return isAvailable;
     }
 
     // setter

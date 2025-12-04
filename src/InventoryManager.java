@@ -13,7 +13,7 @@ public class InventoryManager {
 
     // add an item to the inventory
     public void addItem(Item item) {
-        database.getItems().put(item.getId(item), item);
+        database.getItems().put(item.getId(), item);
     }
 
     // registers a user to the system
@@ -36,9 +36,9 @@ public class InventoryManager {
 
         // Pass prefixed ID to User constructor
         User user = new User(prefixedId, name, email, perms);
-        database.getUsers().put(User.getId(user), user);
+        database.getUsers().put(user.getId(), user);
 
-        System.out.println("User created and registered: " + User.getName(user) + " (" + User.getId(user) + ")");
+        System.out.println("User created and registered: " + user.getName() + " (" + user.getId() + ")");
         return user;
     }
 
@@ -57,7 +57,16 @@ public class InventoryManager {
         Item item = database.getItems().get(itemID);
 
         // item is unable to be checked out
-        if (item == null || !item.isAvailable) return false;
+        if (item == null || !item.isAvailable) {
+            System.out.println("The item is already checked out or does not exist.");
+            return false;
+        }
+
+        // check if user exists
+        if (!database.getUsers().containsKey(userID)) {
+            System.out.println("User with ID " + userID + " does not exist.");
+            return false;
+        }
 
         // check out item and make it unavailable
         item.setAvailability(false);
