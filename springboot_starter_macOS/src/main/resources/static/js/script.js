@@ -1,1 +1,0 @@
-function sayHello(){ alert('Hello from Spring Boot!'); }
