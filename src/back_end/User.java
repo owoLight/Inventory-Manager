@@ -7,6 +7,7 @@ public class User {
     private String name;
     private String email;
     private Permissions perms = Permissions.normal;
+    private int penaltyPoints = 0;
 
     public enum Permissions {
         admin, normal
@@ -25,18 +26,11 @@ public class User {
     }
 
     // getters
-    public String getId() {
-        return id;
-    }
-    public String getName() {
-        return name;
-    }
-    public String getEmail() {
-        return email;
-    }
-    public Permissions getPermissions() {
-        return perms;
-    }
+    public String getId() { return id; }
+    public String getName() { return name; }
+    public String getEmail() { return email; }
+    public Permissions getPermissions() { return perms; }
+    public int getPenaltyPoints() { return penaltyPoints; }
 
     // methods
     public static boolean isValidEmail(String email) {
@@ -60,6 +54,10 @@ public class User {
 
     public void changeName(String newName) {
         name = newName;
+    }
+
+    public void addPenaltyPoints(int points) {
+        penaltyPoints += points;
     }
 
 }

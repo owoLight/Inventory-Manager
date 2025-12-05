@@ -40,9 +40,14 @@ public class CheckoutSystem {
         this.returnDate = date;
     }
 
-    // methods
+    // check if item is returned
     public boolean isReturned() {
         return returnDate != null;
+    }
+
+    // check if the item is overdue
+    public boolean isOverdue() {
+        return !isReturned() && LocalDate.now().isAfter(dueDate);
     }
 
 }
