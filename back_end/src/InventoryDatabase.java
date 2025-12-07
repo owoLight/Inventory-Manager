@@ -13,8 +13,29 @@ public class InventoryDatabase {
     private final Map<String, User> users = new HashMap<>();
     private final List<CheckoutSystem> records = new ArrayList<>();
 
-    private final TreeSet<Integer> availableIds = new TreeSet<>(); // unused right now
+    private final TreeSet<Integer> availableIds = new TreeSet<>();
     private int nextId = 0;
+
+
+    // Generate a unique user ID with appropriate prefix.
+    public String generateUserID(User.Permissions perms) {
+        int idNumber;
+        if (!availableIds.isEmpty()) {
+            idNumber = availableIds.pollFirst();
+        } else { idNumber = nextId++; }
+        return (perms == User.Permissions.admin ? "A-" : "U-") + String.format("%04d", idNumber);
+    }
+
+    // Release a user ID back to the pool of available IDs.
+    public void releaseUserID(String fullIDString) {
+        try {
+            String[] parts = fullIDString.split("-");
+            int idNumber = Integer.parseInt(parts[1]);
+            availableIds.add(idNumber);
+        } catch (NumberFormatException e) {
+            System.out.println("Error releasing user ID: " + fullIDString);
+        }
+    }
 
     // search functions
     public List<Item> searchItemsByName(String keyword) {

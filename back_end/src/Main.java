@@ -1,9 +1,11 @@
 /*
 Patch Notes:
 
-Users are allowed to check out items if available
-
 Methods in the manager check the database to see if there are existing users
+Users are now automatically assigned unique IDs upon registration
+Deleted users have their IDs released back to the pool for future use
+
+Password authentication system added for user login
 
 Items cannot be checked out twice by the same user
 Tracks if items are overdue with overdue flag
@@ -34,7 +36,8 @@ public class Main {
         Item item4 = new ECEItem("004", "Multimeter", "Fluke 87V");
 
         InventoryDatabase database = new InventoryDatabase();
-        InventoryManager manager = new InventoryManager(database);
+        LoginManager loginManager = new LoginManager(database);
+        InventoryManager manager = new InventoryManager(database, loginManager);
         manager.addItem(item1);
         manager.addItem(item2);
         manager.addItem(item3);

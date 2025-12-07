@@ -22,23 +22,22 @@ public class InventoryManager {
 //================
 
     // registers a user to the system
-    public User createAndRegisterUser(String id, String name, String email, String password, User.Permissions perms) {
+    public User createAndRegisterUser(String name, String email, String password, User.Permissions perms) {
         
         // check if email is valid
         if (!User.isValidEmail(email)) {
             System.out.println("Invalid email: " + email);
             return null;
         }
-
+        // check if password is valid
         if(!User.isValidPassword(password)){
             System.out.println("Invalid password: " + password);
             return null;
         }
+        // generate unique ID
+        String prefixedId = database.generateUserID(perms);
 
-        // create prefixed ID
-        String prefixedId = (perms == User.Permissions.admin ? "A-" : "U-") + id;
-
-        // Check uniqueness in the database
+        // Check uniqueness in the database (just in case)
         if (database.getUsers().containsKey(prefixedId)) {
             System.out.println("ID already exists: " + prefixedId);
             return null;
@@ -46,7 +45,7 @@ public class InventoryManager {
 
         // Pass prefixed ID to User constructor
         User user = new User(prefixedId, name, email, password, perms);
-        database.getUsers().put(user.getId(), user);
+        database.getUsers().put(prefixedId, user);
 
         System.out.println("User created and registered: " + user.getName() + " (" + user.getId() + ")");
         return user;
@@ -57,7 +56,8 @@ public class InventoryManager {
             System.out.println("User with ID " + userID + " does not exist.");
             return false;
         }
-        database.getUsers().remove(userID);
+        database.getUsers().remove(userID); // remove userid from database
+        database.releaseUserID(userID); // make it available again
         System.out.println("User with ID " + userID + " removed successfully.");
         return true;
     }
