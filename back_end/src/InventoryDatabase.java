@@ -2,6 +2,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeSet;
 
 //================================================================
 // This class acts as a database for InventoryManager. tracks items, users, and checkout records
@@ -11,6 +12,9 @@ public class InventoryDatabase {
     private final Map<String, Item> items = new HashMap<>();
     private final Map<String, User> users = new HashMap<>();
     private final List<CheckoutSystem> records = new ArrayList<>();
+
+    private final TreeSet<Integer> availableIds = new TreeSet<>(); // unused right now
+    private int nextId = 0;
 
     // search functions
     public List<Item> searchItemsByName(String keyword) {

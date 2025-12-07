@@ -10,22 +10,28 @@ import java.util.List;
 
 public class InventoryManager {
     private final InventoryDatabase database;
+    private final LoginManager logins;
 
-    public InventoryManager(InventoryDatabase database) {
+    public InventoryManager(InventoryDatabase database, LoginManager logins) {
         this.database = database;
+        this.logins = logins;
     }
 
-    // add an item to the inventory
-    public void addItem(Item item) {
-        database.getItems().put(item.getId(), item);
-    }
+//================
+// USER METHODS
+//================
 
     // registers a user to the system
-    public User createAndRegisterUser(String id, String name, String email, User.Permissions perms) {
+    public User createAndRegisterUser(String id, String name, String email, String password, User.Permissions perms) {
         
         // check if email is valid
         if (!User.isValidEmail(email)) {
             System.out.println("Invalid email: " + email);
+            return null;
+        }
+
+        if(!User.isValidPassword(password)){
+            System.out.println("Invalid password: " + password);
             return null;
         }
 
@@ -39,7 +45,7 @@ public class InventoryManager {
         }
 
         // Pass prefixed ID to User constructor
-        User user = new User(prefixedId, name, email, perms);
+        User user = new User(prefixedId, name, email, password, perms);
         database.getUsers().put(user.getId(), user);
 
         System.out.println("User created and registered: " + user.getName() + " (" + user.getId() + ")");
@@ -56,6 +62,15 @@ public class InventoryManager {
         return true;
     }
 
+//================
+// ITEM METHODS
+//================
+
+    // add an item to the inventory
+    public void addItem(Item item) {
+        database.getItems().put(item.getId(), item);
+    }
+
     // checkout an item for a user
     public boolean checkoutItem(String itemID, String userID) {
         Item item = database.getItems().get(itemID);
@@ -66,8 +81,8 @@ public class InventoryManager {
             return false;
         }
 
-        // check if user exists
-        if (!database.getUsers().containsKey(userID)) {
+        // check if user exists and is logged in
+        if (!database.getUsers().containsKey(userID) || !logins.isLoggedIn(userID)) {
             System.out.println("User with ID " + userID + " does not exist.");
             return false;
         }
