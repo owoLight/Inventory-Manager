@@ -2,12 +2,11 @@
 // this class represents items specific to the ECE department.
 // =======================================================
 package com.labinventory.backend.model;
+
 public class ECEItem extends Item {
 
-    // constructor
-    public ECEItem(String id, String name, String description) {
-        super(id, name, description);
-        this.name = "ECE-" + name;
+    public ECEItem(String code, String name, String description) {
+        super(code, name, description);
+        setName("ECE-" + name);   // ✅ use public setter
     }
-
 }

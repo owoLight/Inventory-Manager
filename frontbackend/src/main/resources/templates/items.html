@@ -8,8 +8,12 @@
 <body class="bg-light">
 <nav class="navbar navbar-dark bg-dark mb-4">
     <div class="container-fluid">
-        <a class="navbar-brand" href="/">Lab Inventory</a>
-        <a href="/items/new" class="btn btn-sm btn-outline-light">Add Item</a>
+        <a class="navbar-brand" href="/items">Lab Inventory</a>
+
+        <div class="d-flex">
+            <a href="/items/new" class="btn btn-sm btn-outline-light me-2">Add Item</a>
+            <a href="/logout" class="btn btn-sm btn-outline-light">Logout</a>
+        </div>
     </div>
 </nav>
 
@@ -28,21 +32,32 @@
         </thead>
         <tbody>
         <tr th:each="item : ${items}">
-            <td th:text="${item.id}">001</td>
+            <!-- Clickable ID -> item details -->
+            <td>
+                <a th:href="@{/items/{id}(id=${item.id})}"
+                   th:text="${item.id}">1</a>
+            </td>
             <td th:text="${item.name}">Laptop</td>
             <td th:text="${item.description}">Dell XPS 13</td>
             <td>
                 <span th:text="${item.available} ? 'Yes' : 'No'">Yes</span>
             </td>
             <td>
-                <form th:if="${item.available}" th:action="@{/items/borrow}" method="post" class="d-inline">
-                    <input type="hidden" name="itemId" th:value="${item.id}">
-                    <button class="btn btn-sm btn-success">Borrow</button>
-                </form>
+                <!-- If available -> Borrow link -->
+                <a th:if="${item.available}"
+                   th:href="@{/items/{id}/borrow(id=${item.id})}"
+                   class="btn btn-sm btn-success">
+                    Borrow
+                </a>
 
-                <form th:if="${!item.available}" th:action="@{/items/return}" method="post" class="d-inline">
-                    <input type="hidden" name="itemId" th:value="${item.id}">
-                    <button class="btn btn-sm btn-warning">Return</button>
+                <!-- If not available -> Return form -->
+                <form th:if="${!item.available}"
+                      th:action="@{/items/{id}/return(id=${item.id})}"
+                      method="post"
+                      class="d-inline">
+                    <button type="submit" class="btn btn-sm btn-warning">
+                        Return
+                    </button>
                 </form>
             </td>
         </tr>
